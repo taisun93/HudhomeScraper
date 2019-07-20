@@ -10,14 +10,25 @@ class HudhomestoreSpider(scrapy.Spider):
         OrderbyName=SCASENUMBER&OrderbyValue=ASC&sLanguage=ENGLISH"""
         
         yield scrapy.Request(url=url, callback=self.parse)
-    
+
+    """
+        page = response.url.split("/")[-2]
+        filename = 'HUD-%s.html' % page
+        with open(filename, 'wb') as f:
+            f.write(response.body)
+        self.log('Saved file %s' % filename)
+    """
     def parse(self, response):
-        propertylistings = response.xpath("//tr[contains(@class,'FormTableRow')]").getall()
-        print(len(propertylistings))
+        filename = 'HUD.html' 
+        with open(filename, 'wb') as f:
+            f.write(response.body)
+
+
+        #propertylistings = response.xpath("//tr[contains(@class,'FormTableRow')]").getall()
+        #print(len(propertylistings))
         
-        print(propertylistings[2].xpath("(//u/text())[1]").get())
+        #print(propertylistings[2].xpath("(//u/text())[1]").get())
 
 
         #for house in propertylistings:
-        #    print(house.get())
         #    print(house.xpath("//u/text()").get())
